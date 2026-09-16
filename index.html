@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tren Unggahan Lowongan Kerja ABK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --ink: #16211f;
+      --sub: #5b6b68;
+      --line: #e4e9e7;
+      --teal: #0d6e6a;
+      --teal-soft: #e4f2f1;
+      --brick: #a8412f;
+      --bg: #ffffff;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      padding: 48px 24px 64px;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0 0 6px;
+      letter-spacing: -0.01em;
+    }
+    .sub {
+      color: var(--sub);
+      font-size: 14.5px;
+      margin: 0 0 36px;
+      max-width: 60ch;
+      line-height: 1.5;
+    }
+    .stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      flex: 1;
+      min-width: 190px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 18px 20px;
+      background: #fff;
+    }
+    .stat .num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1.1;
+    }
+    .stat .lbl {
+      font-size: 12.5px;
+      color: var(--sub);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .chart-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 24px 16px;
+    }
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .chart-sub {
+      font-size: 12.5px;
+      color: var(--sub);
+      margin-bottom: 18px;
+    }
+    canvas {
+      max-height: 360px;
+    }
+    .note {
+      font-size: 12.5px;
+      color: var(--sub);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tren Unggahan Lowongan Kerja ABK di Facebook</h1>
+    <p class="sub">Jumlah unggahan lowongan kerja awak kapal perikanan per bulan, dari 3 grup Facebook (Muara Angke &amp; Muara Baru), Juni 2024–September 2026.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">1.527</div><div class="lbl">Total unggahan loker ABK teridentifikasi</div></div>
+      <div class="stat"><div class="num">26</div><div class="lbl">Kasus aduan penipuan tercatat DFW (2021–2026)</div></div>
+      <div class="stat"><div class="num">86</div><div class="lbl">Korban dalam aduan tersebut (2021–2026)</div></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Jumlah unggahan per bulan</div>
+      <div class="chart-sub">324 unggahan tanpa metadata tanggal tidak termasuk dalam grafik ini.</div>
+      <canvas id="chart"></canvas>
+    </div>
+
+    <p class="note">Data aduan DFW (26 kasus / 86 korban) mencakup rentang 2021–2026 secara akumulatif dan tidak memiliki pecahan bulanan, sehingga ditampilkan sebagai angka konteks, bukan sebagai garis pada grafik tren.</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const labels = [
+        "2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12",
+        "2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09",
+        "2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06",
+        "2026-07","2026-08","2026-09"
+      ];
+      const values = [2,17,8,15,5,2,2,1,13,8,11,13,53,35,17,4,137,116,33,75,244,80,76,65,7,73,75,16];
+
+      const el = document.getElementById('chart');
+      if (el && typeof Chart !== 'undefined') {
+        new Chart(el, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: '#0d6e6a',
+              borderRadius: 3,
+              maxBarThickness: 22
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { title: function (items) { return items[0].label; } } }
+            },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#5b6b68', font: { size: 10.5 }, maxRotation: 90, minRotation: 90 } },
+              y: { beginAtZero: true, grid: { color: '#eef1f0' }, ticks: { color: '#5b6b68', font: { size: 11 } } }
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
